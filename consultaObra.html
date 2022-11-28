@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUCTO 2</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous" />
+    <link rel="stylesheet" href="StyleShee1.css" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <section>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://code.jquery-1.12.0.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <!-- use the latest version -->
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="./Js/CrearExcelObra.js"></script>
+
+    <script src="https://maxcdn.bootstrampcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+        $("#Botones").click(function () {
+            Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            )
+        });
+    </script>
+
+    <div class="wrapper">
+        <nav id="sidebar">
+           
+            <div class="sidebar-header">
+                <h3>PAGOS OBRA</h3>
+            </div>
+             <ul class="list-unstyled components">
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-home">CONSULTAS</i>
+                </a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <a href="consultaObra.html">DATOS OBRA</a>
+                        <a href="proveedores.html">DATOS PROVEEDORES </a>
+                        <a href="materiales.html">DATOS MATERIALES </a>
+                        <a href="nota.html">DATOS NOTA </a>
+                        <a href="Detalles.html">DATOS DETALLES DE NOTA </a>
+                    </li>
+                    </ul>
+                </li>
+                </ul>
+             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-copy">AGREGAR DATOS  </i>
+                </a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="agregardatos1.html">AGREGAR DATOS DE OBRA </a>
+                        <a href="agregarProveedores.html">DATOS PROVEEDORES </a>
+                        <a href="agregarMaterial.html">DATOS MATERIALES </a>
+                        <a href="agregarNota.html">DATOS NOTA </a>
+                        <a href="agregarDetalles.html">DATOS DETALLES DE NOTA </a>
+                    </li>
+                    </ul>
+        </nav>
+        <div id="content">
+            <button type="button" id="sidebarCollapse" class="navbar-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        
+        <style>
+            table thead{
+                background-color:cornflowerblue;
+                color: white;
+            }
+        </style>
+        <div>
+            <h1 style="text-align:center">DATOS DE OBRA</h1>
+        <div class="container mt-4 shadow-lg p3 mb-5 bg-body rounded">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Correo</th>
+                        <th>DIRECCION</th>
+                        <th>DUEÑO</th>
+                        <th>FECHA FIN</th>
+                        <th>FECHA INICIO</th>
+                        <th>NOMBRE OBRA</th>
+                        <th>RESPONSABLE</th>
+                        <th>TELEFONO</th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-primary" onclick = "GenerarExcel()"
+            >Descargar Excel</button>
+        </div>
+    </div>
+        <script>
+            let url = 'http://192.168.11.46/VictorApp/api/Datos/Listaobra'
+            fetch(url)
+            .then(Response => Response.json())
+            .then(data => mostrarData(data))
+            .catch(error => console.log(error))
+
+            const mostrarData = (data) => {
+                console.table(data)
+                let body = ''
+                for (let i = 0; i<data.length; i++){
+                    body += `<tr><td>${data[i].Correo_res}</td><td>${data[i].Direccion}</td><td>${data[i].Duenio}</td><td>${data[i].FechaFin}</td><td>${data[i].FechaIni}</td><td>${data[i].NombreObra}</td><td>${data[i].Responsable}</td><td>${data[i].Tel_resp}</td></tr>`
+                }
+                document.getElementById('data').innerHTML = body
+            }
+        </script>
+    </div>
+    </section>
+    </div>
+    </form> 
+</body>
+</html>
